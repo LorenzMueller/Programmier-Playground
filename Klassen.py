@@ -1,9 +1,13 @@
-class BauplanKatzenKlasse():
-    
-    def __init__(self, rufname, farbe="schwarz", alter=0,schlafdauer = 0):
+class Tier():
+    def __init__(self, rufname, farbe="schwarz", alter=0):
         self.rufname = rufname
         self.farbe = farbe
         self.alter = alter
+
+class BauplanKatzenKlasse(Tier):
+    
+    def __init__(self, rufname, farbe="schwarz", alter=0,schlafdauer = 0):
+        super().__init__(rufname, farbe, alter)
         self.schlafDauer = schlafdauer
     
     def miauen(self, anzahl = 1):
