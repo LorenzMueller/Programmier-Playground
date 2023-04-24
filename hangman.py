@@ -4,7 +4,7 @@ woerter = 'hund katze maus haus raus'.split()
 erraten = []
 nutzereingabe = ""
 fehlversuche = 8
-
+ 
 #Initialisierung
 rate_wort = random.choice(woerter)
 print(rate_wort)
