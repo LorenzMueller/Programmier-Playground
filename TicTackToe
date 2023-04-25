@@ -54,7 +54,8 @@ def kontrolle_gewonnen():
         return spielfeld[1]
     if spielfeld[7] == spielfeld[5] == spielfeld[3]:
         return spielfeld[7]
-
+    
+def kontrolle_auf_unentschieden():
     if (spielfeld[1] == 'X' or spielfeld[1] == 'O') \
       and (spielfeld[2] == 'X' or spielfeld[2] == 'O') \
       and (spielfeld[3] == 'X' or spielfeld[3] == 'O') \
@@ -65,6 +66,7 @@ def kontrolle_gewonnen():
       and (spielfeld[8] == 'X' or spielfeld[8] == 'O') \
       and (spielfeld[9] == 'X' or spielfeld[9] == 'O'):
         return ('unentschieden')
+
 
 while spiel_aktiv:
     spielfeldausgeben()
