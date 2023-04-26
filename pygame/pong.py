@@ -13,6 +13,8 @@ spielfigur_2_bewegung = 0
 schlaegerhoehe = 60
 punkteSp1 = 0
 punkteSp2 = 0
+AnzeigePunkteSp1 = 0
+AnzeigePunkteSp2 = 0
 
 # Farben
 ORANGE  = ( 255, 140, 0)
@@ -72,12 +74,14 @@ def gewinnerAnzeigen(gewinner):
 
 def hintergrundErstellen():
     screen.fill(SCHWARZ)
-    text1 = "Punkte " + str(punkteSp1)
+    AnzeigePunkteSp1 = int(punkteSp1//3)
+    text1 = "Punkte " + str(AnzeigePunkteSp1)
     AnzeigeSp1 = pygame.font.SysFont('Arial', 15, True, False)
     textSp1 = AnzeigeSp1.render(text1, True, ROT)
     screen.blit(textSp1, [10, 10])
+    AnzeigePunkteSp2 = int(punkteSp2//3)
     AnzeigeSp2 = pygame.font.SysFont('Arial', 15, True, False)
-    text2 = "Punkte " + str(punkteSp2)
+    text2 = "Punkte " + str(AnzeigePunkteSp2)
     textSp2 = AnzeigeSp2.render(text2, True, ROT)
     screen.blit(textSp2, [FENSTERBREITE - 75, 10])
 
