@@ -3,14 +3,8 @@ import pygame
 #Attribute
 FENSTERBREITE = 640
 FENSTERHOEHE = 480
-
-spielfigur_1_x = 20
-spielfigur_1_y = 150
-spielfigur_1_bewegung = 0
-spielfigur_2_x = FENSTERBREITE - (2 * 20)
-spielfigur_2_y = 20
-spielfigur_2_bewegung = 0
 schlaegerhoehe = 60
+
 punkteSp1 = 0
 punkteSp2 = 0
 AnzeigePunkteSp1 = 0
@@ -48,10 +42,11 @@ class Ball():
         self.bewegung_x = self.bewegung_x * -1
 
 class Spieler():
-    def __init__(self, xPos, yPos, bewegung, Schlaegerhoehe = 60):
+    def __init__(self, xPos, yPos, bewegung, punkte, Schlaegerhoehe = 60):
         self.xPos = xPos
         self.yPos = yPos
         self.bewegung = bewegung
+        self.punkte = punkte
         self.Schlaegerhoehe = 60
 
     def xPosGeben(self):
@@ -67,6 +62,10 @@ class Spieler():
         self.yPos += yNeu
     def yPosSetzen(self, yNeu):
         self.yPos = yNeu
+    def punkteErhöhen(self):
+        self.punkte += 1
+    def punkteGeben(self):
+        return self.punkte
     
 
 
@@ -75,15 +74,15 @@ screen = pygame.display.set_mode((FENSTERBREITE, FENSTERHOEHE))
 pygame.font.init()
 clock = pygame.time.Clock()
 ball = Ball(10, 30, 20)
-spieler1 = Spieler(20, 150, 0)
-spieler2 = Spieler(FENSTERBREITE - (2 * 20), 20, 0)
+spieler1 = Spieler(20, 150, 0, 0)
+spieler2 = Spieler(FENSTERBREITE - (2 * 20), 20, 0, 0)
 
 
 # Fenster öffnen
 screen.fill(WEISS)
 
 # Titel für Fensterkopf
-pygame.display.set_caption("Unser erstes Pygame-Spiel")
+pygame.display.set_caption("Krasses Pong")
 
 
 # solange die Variable True ist, soll das Spiel laufen
@@ -99,12 +98,12 @@ def gewinnerAnzeigen(gewinner):
 
 def hintergrundErstellen():
     screen.fill(SCHWARZ)
-    AnzeigePunkteSp1 = int(punkteSp1//3)
+    AnzeigePunkteSp1 = int(spieler1.punkteGeben()//3)
     text1 = "Punkte " + str(AnzeigePunkteSp1)
     AnzeigeSp1 = pygame.font.SysFont('Arial', 15, True, False)
     textSp1 = AnzeigeSp1.render(text1, True, ROT)
     screen.blit(textSp1, [10, 10])
-    AnzeigePunkteSp2 = int(punkteSp2//3)
+    AnzeigePunkteSp2 = int(spieler2.punkteGeben()//3)
     AnzeigeSp2 = pygame.font.SysFont('Arial', 15, True, False)
     text2 = "Punkte " + str(AnzeigePunkteSp2)
     textSp2 = AnzeigeSp2.render(text2, True, ROT)
@@ -189,11 +188,11 @@ while spielaktiv:
     pygame.draw.rect(screen, WEISS, [spieler2.xPosGeben(), spieler2.yPosGeben(), 20, schlaegerhoehe])
     if ball.xPosGeben() < 5:
         gewinnerAnzeigen("Spieler 2 hat gewonnen")
-        punkteSp2 += 1
+        spieler2.punkteErhöhen()
 
     elif ball.xPosGeben() > (FENSTERBREITE -25):
         gewinnerAnzeigen("Spieler 1 hat gewonnen")
-        punkteSp1 += 1
+        spieler1.punkteErhöhen()
 
 
     #  Fenster aktualisieren
