@@ -62,9 +62,11 @@ spielaktiv = True
 
 #Gewinneranzeigen
 def gewinnerAnzeigen(gewinner):
+    screen.fill(SCHWARZ)
     schrift = pygame.font.SysFont('Arial', 35, True, False)
     text = schrift.render(gewinner, True, ROT)
     screen.blit(text, [150, 250])
+    pygame.time.delay(2000)
 
 # Schleife Hauptprogramm
 while spielaktiv:
@@ -80,17 +82,17 @@ while spielaktiv:
             #elif event.key == pygame.K_SPACE:
                 
             # Taste für Spieler 1
-            elif event.key == pygame.K_UP:
+            elif event.key == pygame.K_w:
                 spielfigur_1_bewegung = -6
 
-            elif event.key == pygame.K_DOWN:
+            elif event.key == pygame.K_s:
                 spielfigur_1_bewegung = +6
             
 
             # Taste für Spieler 2
-            elif event.key == pygame.K_w:
+            elif event.key == pygame.K_UP:
                 spielfigur_2_bewegung = -6
-            elif event.key == pygame.K_s:
+            elif event.key == pygame.K_DOWN:
                 spielfigur_2_bewegung = +6
         
         #zum Stoppen der Spielerbewegung 
@@ -98,12 +100,14 @@ while spielaktiv:
             print("Spieler hat Taste losgelassen")
 
             # Tasten für Spieler 1
-            if event.key == pygame.K_UP or event.key == pygame.K_DOWN:
+            if event.key == pygame.K_w or event.key == pygame.K_s:
                 spielfigur_1_bewegung = 0
-
+            
             # Tasten für Spieler 2
-            elif event.key == pygame.K_w or event.key == pygame.K_s:
+            elif event.key == pygame.K_UP or event.key == pygame.K_DOWN:
                 spielfigur_2_bewegung = 0
+
+
 
     # Spiellogik hier integrieren
     if spielfigur_1_bewegung != 0:
@@ -141,10 +145,10 @@ while spielaktiv:
     # -- Spielerfigur 2
     spieler2 = pygame.draw.rect(screen, WEISS, [spielfigur_2_x, spielfigur_2_y, 20, schlaegerhoehe])
     if ball.xPosGeben() < 5:
-        gewinnerAnzeigen("Spieler 1 hat gewonnen")
+        gewinnerAnzeigen("Spieler 2 hat gewonnen")
 
     elif ball.xPosGeben() > (FENSTERBREITE -25):
-        gewinnerAnzeigen("Spieler 2 hat gewonnen")
+        gewinnerAnzeigen("Spieler 1 hat gewonnen")
     
     #  Fenster aktualisieren
     pygame.display.flip()
