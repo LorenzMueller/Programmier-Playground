@@ -49,13 +49,13 @@ trabi = Pkw("rot", 1981, 143000, 4, "Trabi")
 
 trabi.parken()
 print(trabi.geparkt)
-"""katze_sammy = BauplanKatzenKlasse("Sammy", "orange", 8)
+katze_sammy = BauplanKatzenKlasse("Sammy", "orange", 8)
 katze_klausi = BauplanKatzenKlasse("Klaus")
 print(katze_sammy.farbe)
 print(katze_klausi.farbe)
 katze_klausi.miauen(5)
 katze_klausi.schlafen(10)
-katze_klausi.schlafen(10)"""
+katze_klausi.schlafen(10)
 
 class Auto():
 
