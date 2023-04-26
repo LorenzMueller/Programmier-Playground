@@ -1,0 +1,3 @@
+Text, der aus Datei kommt
+Ich bin die zweite Zeile
+und die Dritte folgt sogleich
