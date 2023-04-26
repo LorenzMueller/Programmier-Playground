@@ -75,8 +75,8 @@ screen = pygame.display.set_mode((FENSTERBREITE, FENSTERHOEHE))
 pygame.font.init()
 clock = pygame.time.Clock()
 ball = Ball(10, 30, 20)
-spieler11 = Spieler(20, 150, 0)
-spieler12 = Spieler(FENSTERBREITE - (2 * 20), 20, 0)
+spieler1 = Spieler(20, 150, 0)
+spieler2 = Spieler(FENSTERBREITE - (2 * 20), 20, 0)
 
 
 # Fenster öffnen
@@ -125,18 +125,18 @@ while spielaktiv:
                 
             # Taste für Spieler 1
             elif event.key == pygame.K_w:
-                spieler11.bewegungSetzen(-6)
+                spieler1.bewegungSetzen(-6)
 
             elif event.key == pygame.K_s:
-                spieler11.bewegungSetzen(+6)
+                spieler1.bewegungSetzen(+6)
                 
             
 
             # Taste für Spieler 2
             elif event.key == pygame.K_UP:
-                spieler12.bewegungSetzen(-6)
+                spieler2.bewegungSetzen(-6)
             elif event.key == pygame.K_DOWN:
-                spieler12.bewegungSetzen(+6)
+                spieler2.bewegungSetzen(+6)
         
         #zum Stoppen der Spielerbewegung 
         if event.type == pygame.KEYUP:
@@ -144,37 +144,37 @@ while spielaktiv:
 
             # Tasten für Spieler 1
             if event.key == pygame.K_w or event.key == pygame.K_s:
-                spieler11.bewegungSetzen(0)
+                spieler1.bewegungSetzen(0)
             
             # Tasten für Spieler 2
             elif event.key == pygame.K_UP or event.key == pygame.K_DOWN:
-                spieler12.bewegungSetzen(0)
+                spieler2.bewegungSetzen(0)
 
 
 
     # Spiellogik hier integrieren
-    if spieler11.bewegungGeben() != 0:
-        spieler11.yPosVerschieben(spieler11.bewegungGeben())
+    if spieler1.bewegungGeben() != 0:
+        spieler1.yPosVerschieben(spieler1.bewegungGeben())
 
-    if spieler11.yPosGeben() < 0:
-        spieler11.yPosSetzen(0)
+    if spieler1.yPosGeben() < 0:
+        spieler1.yPosSetzen(0)
 
-    if spieler11.yPosGeben() > FENSTERHOEHE - schlaegerhoehe:
-        spieler11.yPosSetzen(FENSTERHOEHE - schlaegerhoehe)
+    if spieler1.yPosGeben() > FENSTERHOEHE - schlaegerhoehe:
+        spieler1.yPosSetzen(FENSTERHOEHE - schlaegerhoehe)
 
-    if spieler12.bewegungGeben() != 0:
-        spieler12.yPosVerschieben(spieler12.bewegungGeben())
+    if spieler2.bewegungGeben() != 0:
+        spieler2.yPosVerschieben(spieler2.bewegungGeben())
 
-    if spieler12.yPosGeben() < 0:
-        spieler12.yPosSetzen(0)
+    if spieler2.yPosGeben() < 0:
+        spieler2.yPosSetzen(0)
 
-    if spieler12.yPosGeben() > FENSTERHOEHE - schlaegerhoehe:
-        spieler12.yPosSetzen(FENSTERHOEHE - schlaegerhoehe)
+    if spieler2.yPosGeben() > FENSTERHOEHE - schlaegerhoehe:
+        spieler2.yPosSetzen(FENSTERHOEHE - schlaegerhoehe)
 
-    if spieler12.xPosGeben() < (ball.xPosGeben() + 20) and spieler12.yPosGeben() < ball.yPosGeben() and (spieler12.yPosGeben() + 60) > ball.yPosGeben():
+    if spieler2.xPosGeben() < (ball.xPosGeben() + 20) and spieler2.yPosGeben() < ball.yPosGeben() and (spieler2.yPosGeben() + 60) > ball.yPosGeben():
         ball.umdrehen()
 
-    if (spieler11.xPosGeben() + 20) > ball.xPosGeben() and spieler11.yPosGeben() < ball.yPosGeben() and (spieler11.yPosGeben() + 60) > ball.yPosGeben():
+    if (spieler1.xPosGeben() + 20) > ball.xPosGeben() and spieler1.yPosGeben() < ball.yPosGeben() and (spieler1.yPosGeben() + 60) > ball.yPosGeben():
         ball.umdrehen()
 
 
@@ -184,9 +184,9 @@ while spielaktiv:
     #Ball
     ball.bewegen()
     # -- Spielerfigur 1
-    pygame.draw.rect(screen, WEISS, [spieler11.xPosGeben(), spieler11.yPosGeben(), 20, schlaegerhoehe])
+    pygame.draw.rect(screen, WEISS, [spieler1.xPosGeben(), spieler1.yPosGeben(), 20, schlaegerhoehe])
     # -- Spielerfigur 2
-    pygame.draw.rect(screen, WEISS, [spieler12.xPosGeben(), spieler12.yPosGeben(), 20, schlaegerhoehe])
+    pygame.draw.rect(screen, WEISS, [spieler2.xPosGeben(), spieler2.yPosGeben(), 20, schlaegerhoehe])
     if ball.xPosGeben() < 5:
         gewinnerAnzeigen("Spieler 2 hat gewonnen")
         punkteSp2 += 1
