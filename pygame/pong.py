@@ -3,15 +3,16 @@ import pygame
 #Attribute
 FENSTERBREITE = 640
 FENSTERHOEHE = 480
+
 spielfigur_1_x = 20
 spielfigur_1_y = 150
 spielfigur_1_bewegung = 0
-
 spielfigur_2_x = FENSTERBREITE - (2 * 20)
 spielfigur_2_y = 20
 spielfigur_2_bewegung = 0
-
 schlaegerhoehe = 60
+punkteSp1 = 0
+punkteSp2 = 0
 
 # Farben
 ORANGE  = ( 255, 140, 0)
@@ -57,6 +58,7 @@ screen.fill(WEISS)
 # Titel für Fensterkopf
 pygame.display.set_caption("Unser erstes Pygame-Spiel")
 
+
 # solange die Variable True ist, soll das Spiel laufen
 spielaktiv = True
 
@@ -67,6 +69,17 @@ def gewinnerAnzeigen(gewinner):
     text = schrift.render(gewinner, True, ROT)
     screen.blit(text, [150, 250])
     pygame.time.delay(2000)
+
+def hintergrundErstellen():
+    screen.fill(SCHWARZ)
+    text1 = "Punkte " + str(punkteSp1)
+    AnzeigeSp1 = pygame.font.SysFont('Arial', 15, True, False)
+    textSp1 = AnzeigeSp1.render(text1, True, ROT)
+    screen.blit(textSp1, [10, 10])
+    AnzeigeSp2 = pygame.font.SysFont('Arial', 15, True, False)
+    text2 = "Punkte " + str(punkteSp2)
+    textSp2 = AnzeigeSp2.render(text2, True, ROT)
+    screen.blit(textSp2, [FENSTERBREITE - 75, 10])
 
 # Schleife Hauptprogramm
 while spielaktiv:
@@ -97,7 +110,7 @@ while spielaktiv:
         
         #zum Stoppen der Spielerbewegung 
         if event.type == pygame.KEYUP:
-            print("Spieler hat Taste losgelassen")
+            
 
             # Tasten für Spieler 1
             if event.key == pygame.K_w or event.key == pygame.K_s:
@@ -137,7 +150,7 @@ while spielaktiv:
 
     
     # Spielfeld/figur(en) zeichnen (davor Spielfeld löschen)
-    screen.fill(SCHWARZ)
+    hintergrundErstellen()
     #Ball
     ball.bewegen()
     # -- Spielerfigur 1
@@ -146,10 +159,13 @@ while spielaktiv:
     spieler2 = pygame.draw.rect(screen, WEISS, [spielfigur_2_x, spielfigur_2_y, 20, schlaegerhoehe])
     if ball.xPosGeben() < 5:
         gewinnerAnzeigen("Spieler 2 hat gewonnen")
+        punkteSp2 += 1
 
     elif ball.xPosGeben() > (FENSTERBREITE -25):
         gewinnerAnzeigen("Spieler 1 hat gewonnen")
-    
+        punkteSp1 += 1
+
+
     #  Fenster aktualisieren
     pygame.display.flip()
 
