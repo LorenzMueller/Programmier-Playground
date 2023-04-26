@@ -47,11 +47,36 @@ class Ball():
     def umdrehen(self):
         self.bewegung_x = self.bewegung_x * -1
 
+class Spieler():
+    def __init__(self, xPos, yPos, bewegung, Schlaegerhoehe = 60):
+        self.xPos = xPos
+        self.yPos = yPos
+        self.bewegung = bewegung
+        self.Schlaegerhoehe = 60
+
+    def xPosGeben(self):
+        return self.xPos
+    def yPosGeben(self):
+        return self.yPos
+    def bewegungGeben(self):
+        return self.bewegung
+    
+    def bewegungSetzen(self, bewegungNeu):
+        self.bewegung = bewegungNeu
+    def yPosVerschieben(self, yNeu):
+        self.yPos += yNeu
+    def yPosSetzen(self, yNeu):
+        self.yPos = yNeu
+    
+
+
 # initialisieren von pygame
 screen = pygame.display.set_mode((FENSTERBREITE, FENSTERHOEHE))
 pygame.font.init()
 clock = pygame.time.Clock()
 ball = Ball(10, 30, 20)
+spieler11 = Spieler(20, 150, 0)
+spieler12 = Spieler(FENSTERBREITE - (2 * 20), 20, 0)
 
 
 # Fenster öffnen
@@ -100,17 +125,18 @@ while spielaktiv:
                 
             # Taste für Spieler 1
             elif event.key == pygame.K_w:
-                spielfigur_1_bewegung = -6
+                spieler11.bewegungSetzen(-6)
 
             elif event.key == pygame.K_s:
-                spielfigur_1_bewegung = +6
+                spieler11.bewegungSetzen(+6)
+                
             
 
             # Taste für Spieler 2
             elif event.key == pygame.K_UP:
-                spielfigur_2_bewegung = -6
+                spieler12.bewegungSetzen(-6)
             elif event.key == pygame.K_DOWN:
-                spielfigur_2_bewegung = +6
+                spieler12.bewegungSetzen(+6)
         
         #zum Stoppen der Spielerbewegung 
         if event.type == pygame.KEYUP:
@@ -118,37 +144,37 @@ while spielaktiv:
 
             # Tasten für Spieler 1
             if event.key == pygame.K_w or event.key == pygame.K_s:
-                spielfigur_1_bewegung = 0
+                spieler11.bewegungSetzen(0)
             
             # Tasten für Spieler 2
             elif event.key == pygame.K_UP or event.key == pygame.K_DOWN:
-                spielfigur_2_bewegung = 0
+                spieler12.bewegungSetzen(0)
 
 
 
     # Spiellogik hier integrieren
-    if spielfigur_1_bewegung != 0:
-        spielfigur_1_y += spielfigur_1_bewegung
+    if spieler11.bewegungGeben() != 0:
+        spieler11.yPosVerschieben(spieler11.bewegungGeben())
 
-    if spielfigur_1_y < 0:
-        spielfigur_1_y = 0
+    if spieler11.yPosGeben() < 0:
+        spieler11.yPosSetzen(0)
 
-    if spielfigur_1_y > FENSTERHOEHE - schlaegerhoehe:
-        spielfigur_1_y = FENSTERHOEHE - schlaegerhoehe
+    if spieler11.yPosGeben() > FENSTERHOEHE - schlaegerhoehe:
+        spieler11.yPosSetzen(FENSTERHOEHE - schlaegerhoehe)
 
-    if spielfigur_2_bewegung != 0:
-        spielfigur_2_y += spielfigur_2_bewegung
+    if spieler12.bewegungGeben() != 0:
+        spieler12.yPosVerschieben(spieler12.bewegungGeben())
 
-    if spielfigur_2_y < 0:
-        spielfigur_2_y = 0
+    if spieler12.yPosGeben() < 0:
+        spieler12.yPosSetzen(0)
 
-    if spielfigur_2_y > FENSTERHOEHE - schlaegerhoehe:
-        spielfigur_2_y = FENSTERHOEHE - schlaegerhoehe
+    if spieler12.yPosGeben() > FENSTERHOEHE - schlaegerhoehe:
+        spieler12.yPosSetzen(FENSTERHOEHE - schlaegerhoehe)
 
-    if spielfigur_2_x < (ball.xPosGeben() + 20) and spielfigur_2_y < ball.yPosGeben() and (spielfigur_2_y + 60) > ball.yPosGeben():
+    if spieler12.xPosGeben() < (ball.xPosGeben() + 20) and spieler12.yPosGeben() < ball.yPosGeben() and (spieler12.yPosGeben() + 60) > ball.yPosGeben():
         ball.umdrehen()
 
-    if (spielfigur_1_x + 20) > ball.xPosGeben() and spielfigur_1_y < ball.yPosGeben() and (spielfigur_1_y + 60) > ball.yPosGeben():
+    if (spieler11.xPosGeben() + 20) > ball.xPosGeben() and spieler11.yPosGeben() < ball.yPosGeben() and (spieler11.yPosGeben() + 60) > ball.yPosGeben():
         ball.umdrehen()
 
 
@@ -158,9 +184,9 @@ while spielaktiv:
     #Ball
     ball.bewegen()
     # -- Spielerfigur 1
-    spieler1 = pygame.draw.rect(screen, WEISS, [spielfigur_1_x, spielfigur_1_y, 20, schlaegerhoehe])
+    pygame.draw.rect(screen, WEISS, [spieler11.xPosGeben(), spieler11.yPosGeben(), 20, schlaegerhoehe])
     # -- Spielerfigur 2
-    spieler2 = pygame.draw.rect(screen, WEISS, [spielfigur_2_x, spielfigur_2_y, 20, schlaegerhoehe])
+    pygame.draw.rect(screen, WEISS, [spieler12.xPosGeben(), spieler12.yPosGeben(), 20, schlaegerhoehe])
     if ball.xPosGeben() < 5:
         gewinnerAnzeigen("Spieler 2 hat gewonnen")
         punkteSp2 += 1
