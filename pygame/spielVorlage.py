@@ -5,6 +5,7 @@ import pygame
 screen = pygame.display.set_mode((640, 480))
 clock = pygame.time.Clock()
 
+
 # genutzte Farbe
 ORANGE  = ( 255, 140, 0)
 ROT     = ( 255, 0, 0)
@@ -60,7 +61,7 @@ while spielaktiv:
     # Spiellogik hier integrieren
 
     # Spielfeld/figur(en) zeichnen (davor Spielfeld löschen)
-    screen.fill(SCHWARZ)
+    screen.fill(WEISS)
     pygame.draw.rect(screen, ROT, [10, 20, 100, 100], 1)
     # Fenster aktualisieren
     pygame.display.flip()

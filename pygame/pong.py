@@ -3,6 +3,15 @@ import pygame
 #Attribute
 FENSTERBREITE = 640
 FENSTERHOEHE = 480
+spielfigur_1_x = 20
+spielfigur_1_y = 150
+spielfigur_1_bewegung = 0
+
+spielfigur_2_x = FENSTERBREITE - (2 * 20)
+spielfigur_2_y = 20
+spielfigur_2_bewegung = 0
+
+schlaegerhoehe = 60
 
 # Farben
 ORANGE  = ( 255, 140, 0)
@@ -28,10 +37,19 @@ class Ball():
         self.yPos += self.bewegung_y
         pygame.draw.ellipse(screen, WEISS, [self.xPos, self.yPos, 20, 20])
 
+    def xPosGeben(self):
+        return self.xPos
+    def yPosGeben(self):
+        return self.yPos
+    def umdrehen(self):
+        self.bewegung_x = self.bewegung_x * -1
+
 # initialisieren von pygame
 screen = pygame.display.set_mode((FENSTERBREITE, FENSTERHOEHE))
+pygame.font.init()
 clock = pygame.time.Clock()
 ball = Ball(10, 30, 20)
+
 
 # Fenster öffnen
 screen.fill(WEISS)
@@ -41,6 +59,12 @@ pygame.display.set_caption("Unser erstes Pygame-Spiel")
 
 # solange die Variable True ist, soll das Spiel laufen
 spielaktiv = True
+
+#Gewinneranzeigen
+def gewinnerAnzeigen(gewinner):
+    schrift = pygame.font.SysFont('Arial', 35, True, False)
+    text = schrift.render(gewinner, True, ROT)
+    screen.blit(text, [150, 250])
 
 # Schleife Hauptprogramm
 while spielaktiv:
@@ -52,33 +76,75 @@ while spielaktiv:
             #Hauptspiel Einstellungen 
             if event.key == pygame.K_q:
                 spielaktiv = False
-            elif event.key == pygame.K_SPACE:
-                print("Spieler hat Leertaste gedrückt")
-                ball.bewegen()
-
-        # Taste für Spieler 1
+            
+            #elif event.key == pygame.K_SPACE:
+                
+            # Taste für Spieler 1
             elif event.key == pygame.K_UP:
-                print("Spieler hat Pfeiltaste hoch gedrückt")
+                spielfigur_1_bewegung = -6
 
             elif event.key == pygame.K_DOWN:
-                print("Spieler hat Pfeiltaste runter gedrückt")
+                spielfigur_1_bewegung = +6
             
 
             # Taste für Spieler 2
             elif event.key == pygame.K_w:
-                print("Spieler hat Taste w gedrückt")
+                spielfigur_2_bewegung = -6
             elif event.key == pygame.K_s:
-                print("Spieler hat Taste s gedrückt")
+                spielfigur_2_bewegung = +6
+        
+        #zum Stoppen der Spielerbewegung 
+        if event.type == pygame.KEYUP:
+            print("Spieler hat Taste losgelassen")
 
-        elif event.type == pygame.MOUSEBUTTONDOWN:
-            print("Spieler hast Maus angeklickt")
+            # Tasten für Spieler 1
+            if event.key == pygame.K_UP or event.key == pygame.K_DOWN:
+                spielfigur_1_bewegung = 0
+
+            # Tasten für Spieler 2
+            elif event.key == pygame.K_w or event.key == pygame.K_s:
+                spielfigur_2_bewegung = 0
+
     # Spiellogik hier integrieren
-    pygame.draw.ellipse(screen, WEISS, [10, 30, 20, 20])
+    if spielfigur_1_bewegung != 0:
+        spielfigur_1_y += spielfigur_1_bewegung
+
+    if spielfigur_1_y < 0:
+        spielfigur_1_y = 0
+
+    if spielfigur_1_y > FENSTERHOEHE - schlaegerhoehe:
+        spielfigur_1_y = FENSTERHOEHE - schlaegerhoehe
+
+    if spielfigur_2_bewegung != 0:
+        spielfigur_2_y += spielfigur_2_bewegung
+
+    if spielfigur_2_y < 0:
+        spielfigur_2_y = 0
+
+    if spielfigur_2_y > FENSTERHOEHE - schlaegerhoehe:
+        spielfigur_2_y = FENSTERHOEHE - schlaegerhoehe
+
+    if spielfigur_2_x < (ball.xPosGeben() + 20) and spielfigur_2_y < ball.yPosGeben() and (spielfigur_2_y + 60) > ball.yPosGeben():
+        ball.umdrehen()
+
+    if (spielfigur_1_x + 20) > ball.xPosGeben() and spielfigur_1_y < ball.yPosGeben() and (spielfigur_1_y + 60) > ball.yPosGeben():
+        ball.umdrehen()
+
+
     
     # Spielfeld/figur(en) zeichnen (davor Spielfeld löschen)
     screen.fill(SCHWARZ)
+    #Ball
     ball.bewegen()
-    #pygame.draw.ellipse(screen, WEISS, [ballpos_x, ballpos_y, 20, 20])
+    # -- Spielerfigur 1
+    spieler1 = pygame.draw.rect(screen, WEISS, [spielfigur_1_x, spielfigur_1_y, 20, schlaegerhoehe])
+    # -- Spielerfigur 2
+    spieler2 = pygame.draw.rect(screen, WEISS, [spielfigur_2_x, spielfigur_2_y, 20, schlaegerhoehe])
+    if ball.xPosGeben() < 5:
+        gewinnerAnzeigen("Spieler 1 hat gewonnen")
+
+    elif ball.xPosGeben() > (FENSTERBREITE -25):
+        gewinnerAnzeigen("Spieler 2 hat gewonnen")
     
     #  Fenster aktualisieren
     pygame.display.flip()
