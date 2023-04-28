@@ -1,4 +1,5 @@
 import pygame
+from klassenPong import Spieler
 
 #Attribute
 FENSTERBREITE = 640
@@ -32,7 +33,7 @@ class Ball():
             self.bewegung_y = self.bewegung_y * -1
         self.xPos += self.bewegung_x
         self.yPos += self.bewegung_y
-        pygame.draw.ellipse(screen, WEISS, [self.xPos, self.yPos, 20, 20])
+        
 
     def xPosGeben(self):
         return self.xPos
@@ -41,32 +42,6 @@ class Ball():
     def umdrehen(self):
         self.bewegung_x = self.bewegung_x * -1
 
-class Spieler():
-    def __init__(self, xPos, yPos, bewegung, punkte, Schlaegerhoehe = 60):
-        self.xPos = xPos
-        self.yPos = yPos
-        self.bewegung = bewegung
-        self.punkte = punkte
-        self.Schlaegerhoehe = 60
-
-    def xPosGeben(self):
-        return self.xPos
-    def yPosGeben(self):
-        return self.yPos
-    def bewegungGeben(self):
-        return self.bewegung
-    
-    def bewegungSetzen(self, bewegungNeu):
-        self.bewegung = bewegungNeu
-    def yPosVerschieben(self, yNeu):
-        self.yPos += yNeu
-    def yPosSetzen(self, yNeu):
-        self.yPos = yNeu
-    def punkteErhöhen(self):
-        self.punkte += 1
-    def punkteGeben(self):
-        return self.punkte
-    
 
 
 # initialisieren von pygame
@@ -182,6 +157,7 @@ while spielaktiv:
     hintergrundErstellen()
     #Ball
     ball.bewegen()
+    pygame.draw.ellipse(screen, WEISS, [ball.xPosGeben(),ball.yPosGeben(), 20, 20])
     # -- Spielerfigur 1
     pygame.draw.rect(screen, WEISS, [spieler1.xPosGeben(), spieler1.yPosGeben(), 20, schlaegerhoehe])
     # -- Spielerfigur 2
