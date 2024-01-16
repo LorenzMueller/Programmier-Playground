@@ -1,0 +1,17 @@
+#BlueJ class context
+comment0.target=Taschenrechner
+comment1.params=
+comment1.target=Taschenrechner()
+comment2.params=x\ y
+comment2.target=void\ addieren(int,\ int)
+comment3.params=x\ y
+comment3.target=void\ subtrahieren(int,\ int)
+comment4.params=x\ y
+comment4.target=void\ multiplizieren(int,\ int)
+comment5.params=x
+comment5.target=boolean\ istPositiv(int)
+comment6.params=x
+comment6.target=boolean\ istGerade(int)
+comment7.params=basis\ exponent
+comment7.target=int\ potenz(int,\ int)
+numComments=8
